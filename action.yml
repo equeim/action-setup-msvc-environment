@@ -1,12 +1,21 @@
 name: 'Set up MSVC environment'
 
+inputs:
+  arch:
+    description: 'Target architecture'
+    required: false
+    default: 'x64'
+
 runs:
   using: composite
   steps:
     - name: Set up MSVC environment
       uses: ilammy/msvc-dev-cmd@v1
       with:
-        arch: x64
+        arch: ${{ inputs.arch }}
+
+    - name: Add msvc problem matcher
+      uses: echo '::add-matcher::${{ github.action_path }}\msvc-problem-matcher.json'
 
     - name: Add clang-cl problem matcher
-      uses: equeim/clang-cl-problem-matcher@v1
+      run: echo '::add-matcher::${{ github.action_path }}\clang-cl-problem-matcher.json'
