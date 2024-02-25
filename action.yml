@@ -9,6 +9,14 @@ inputs:
 runs:
   using: composite
   steps:
+    # https://developercommunity.visualstudio.com/t/MicrosoftVCToolsVersionv143defaulttx/10041951
+    - name: Apply workaround to use latest MSVC version
+      shell: pwsh
+      run: |
+        Get-ChildItem "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\"
+        Remove-Item "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\Microsoft.VCToolsVersion.v*.default.*"
+        Get-ChildItem "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\"
+
     - name: Set up MSVC environment
       uses: ilammy/msvc-dev-cmd@v1
       with:
