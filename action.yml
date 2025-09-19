@@ -13,9 +13,11 @@ runs:
     - name: Apply workaround to use latest MSVC version
       shell: pwsh
       run: |
-        Get-ChildItem "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\"
-        Remove-Item "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\Microsoft.VCToolsVersion.v*.default.*"
-        Get-ChildItem "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\"
+        $files = Get-ChildItem "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\Microsoft.VCToolsVersion.v*.default.*"
+        if ($files.Count -gt 0) {
+            echo "Deleting $files"
+            Remove-Item $files
+        }
 
     - name: Set up MSVC environment
       uses: ilammy/msvc-dev-cmd@v1
