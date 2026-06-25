@@ -3,16 +3,14 @@ name: 'Set up MSVC environment'
 inputs:
   arch:
     description: 'Target architecture'
-    required: false
-    default: 'x64'
+    required: true
 
 runs:
   using: composite
   steps:
     - name: Set up MSVC environment
-      uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756
-      with:
-        arch: ${{ inputs.arch }}
+      run: ${{ github.action_path }}\msvc-env.ps1 ${{ inputs.arch }}
+      shell: pwsh
 
     - name: Add msvc problem matcher
       run: echo '::add-matcher::${{ github.action_path }}\msvc-problem-matcher.json'
